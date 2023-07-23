@@ -1,0 +1,82 @@
+#include <stdio.h>
+#include<stdlib.h>
+int mutex=1,full=0,empty=3,x=0;
+
+int main() {
+    int n;
+    void producer();
+    void consumer();
+    int wait(int);
+    int signal(int);
+    printf("\n1.producer\n2.consumer\n3.exit");
+    while(1)
+    {
+        printf("/enter your choice:");
+        scanf("%d",&n);
+        switch(n)
+        {
+            case 1:
+                if (mutex == 1 && empty != 0)
+                    producer();
+                else
+                    printf("Buffer is full!!\n");
+                break;
+            printf("buffer is full!!");
+            break;
+            case 2:
+            if(mutex == 1 && full != 0)
+            consumer();
+            else
+            printf("buffer is empty!!");
+            break;
+            case 3:
+            exit(0);
+        }
+    }
+  return 0;
+}
+int wait(int s) {
+    return --s;
+}
+
+int signal(int s) {
+    return ++s;
+}
+
+void producer() {
+    mutex = wait(mutex);
+    full = signal(full);
+    empty = wait(empty);
+
+    // Produce an item and add it to the buffer
+    x++;
+    printf("Producer produces item: %d\n", x);
+
+    mutex = signal(mutex);
+}
+
+void consumer() {
+    mutex = wait(mutex);
+    full = wait(full);
+    empty = signal(empty);
+
+    // Consume an item from the buffer
+    printf("Consumer consumes item: %d\n", x);
+    x--;
+
+    mutex = signal(mutex);
+}
+
+output:
+1.producer
+2.consumer
+3.exit/enter your choice:12
+/enter your choice:1
+Producer produces item: 1
+/enter your choice:2
+Consumer consumes item: 1
+/enter your choice:1
+Producer produces item: 1
+/enter your choice:2
+Consumer consumes item: 1
+/enter your choice:3
