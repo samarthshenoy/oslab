@@ -1,0 +1,75 @@
+// Online C compiler to run C program online
+#include<sys/types.h>
+#include<sys/wait.h>
+#include<stdio.h>
+#include<unistd.h>
+#include<signal.h>
+int main()
+{
+    pid_t pid;
+    int status;
+    pid=fork();
+    if(pid==0)
+    {
+        printf("this is the child process with pid %d\n",getpid());
+        printf("parent process pid:%d\n",getpid());
+        execlp("/bin/ls", "ls", NULL);
+        printf("this should not be printed if excel() is successful\n");
+        return 0;
+    }
+    else if(pid>0)
+    {
+        printf("this is the process with pid:%d\n",getpid());
+        printf("child process pid :%d\n",pid);
+        wait(&status);
+        printf("child parent exited with status:%d\n",status);
+    }
+    }
+
+
+output:
+/tmp/27WaCuEwgY.o
+this is the process with pid:37697
+this is the child process with pid 37698
+child process pid :37698
+parent process pid:37698
+demo.txt  output.txt  test.txt
+child parent exited with status:0
+
+vfork()
+#include <stdio.h>
+#include <unistd.h>
+#include <signal.h>
+
+int main() {
+    pid_t pid;
+    int status;
+
+    pid = vfork(); // Using vfork instead of fork
+
+    if (pid == 0) {
+        printf("this is the child process with pid %d\n", getpid());
+        printf("parent process pid:%d\n", getpid());
+        execlp("/bin/ls", "ls", NULL);
+        printf("this should not be printed if execlp() is successful\n");
+        _exit(0); // Using _exit to avoid issues with vfork
+    } else if (pid > 0) {
+        printf("this is the process with pid:%d\n", getpid());
+        printf("child process pid :%d\n", pid);
+        wait(&status);
+        printf("child parent exited with status:%d\n", status);
+    }
+
+    return 0;
+}
+
+output:
+/tmp/27WaCuEwgY.o
+this is the child process with pid 72232
+parent process pid:72232
+this is the process with pid:72231
+child process pid :72232
+expenses.txt  output.dat     random_numbers.txt
+file.txt      passwords.txt  student.dat
+child parent exited with status:0
+
