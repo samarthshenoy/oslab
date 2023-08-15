@@ -11,7 +11,7 @@ int main() {
     printf("\n1.producer\n2.consumer\n3.exit");
     while(1)
     {
-        printf("/enter your choice:");
+        printf("\nenter your choice:");
         scanf("%d",&n);
         switch(n)
         {
@@ -48,7 +48,6 @@ void producer() {
     full = signal(full);
     empty = wait(empty);
 
-    // Produce an item and add it to the buffer
     x++;
     printf("Producer produces item: %d\n", x);
 
@@ -60,7 +59,6 @@ void consumer() {
     full = wait(full);
     empty = signal(empty);
 
-    // Consume an item from the buffer
     printf("Consumer consumes item: %d\n", x);
     x--;
 
