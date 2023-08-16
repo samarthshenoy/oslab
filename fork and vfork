@@ -23,8 +23,15 @@ int main()
         printf("child process pid :%d\n",pid);
         wait(&status);
         printf("child parent exited with status:%d\n",status);
+return 0;
     }
+else
+{
+printf("error:fork()%d\n");
+return 1;
     }
+return 0
+}
 
 
 output:
